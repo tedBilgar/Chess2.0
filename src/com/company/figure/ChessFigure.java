@@ -1,6 +1,7 @@
 package com.company.figure;
 
 import com.company.board.ChessBoard;
+import com.company.types.ChessType;
 import com.company.types.Side;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Random;
 
 public abstract class ChessFigure {
     protected Side side;
+    protected ChessType chessType;
     protected ChessBoard chessBoard;
     protected int x_coord;
     protected int y_coord;
@@ -36,7 +38,7 @@ public abstract class ChessFigure {
         if(!setRandomVector(usedVectors)) return false;
 
         //Получаем валидный шаг для движения
-        setStep(1,8);
+        setStep();
 
         int potentialXCoord = x_coord + coeff * vector[0] * step;
         int potentialYCoord = y_coord + coeff * vector[1] * step;
@@ -79,16 +81,28 @@ public abstract class ChessFigure {
 
     // алгоритм выбора длины шага
     // одинаков для всех фигур
-    public void setStep(int minLine,int maxLine) {
+    public void setStep() {
         int coeff;
         boolean isDone = false;
         int randomStep;
         Random random = new Random();
+        int maxLine, minLine;
+        if (this.chessType == ChessType.ELEPHANT || this.chessType == ChessType.QUEEN || this.chessType == ChessType.ROOK){
+            maxLine = 8;
+            minLine = 1;
+        }else if (this.chessType == ChessType.KING) {
+            maxLine = 1;
+            minLine = 1;
+        }else {
+            //TODO
+            maxLine = 0;
+            minLine = 0;
+        }
+
         if (side == Side.WHITE) coeff = +1;
         else coeff = -1;
         do {
             randomStep = random.nextInt(maxLine) + minLine;
-            //System.out.println("КООРД" + x_coord + " " + y_coord);
             if (x_coord + coeff * vector[0] * randomStep > 0 && x_coord + coeff * vector[0] * randomStep < 9
                     && y_coord + coeff * vector[1] * randomStep > 0 && y_coord + coeff * vector[1] * randomStep < 9) {
                 isDone = true;

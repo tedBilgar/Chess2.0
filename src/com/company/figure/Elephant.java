@@ -1,9 +1,9 @@
 package com.company.figure;
 
 import com.company.board.ChessBoard;
+import com.company.types.ChessType;
 import com.company.types.Side;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,6 +12,7 @@ public class Elephant extends ChessFigure {
     public Elephant(Side side, ChessBoard chessBoard, int x_coord, int y_coord) {
         super(side, chessBoard, x_coord, y_coord);
         vector  = new int[2];
+        chessType = ChessType.ELEPHANT;
     }
 
     @Override
